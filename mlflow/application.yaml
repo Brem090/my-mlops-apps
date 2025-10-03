@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://community-charts.github.io/helm-charts
     chart: mlflow
-    targetRevision: 0.7.16   # 👈 правильна версія
+    targetRevision: 0.7.16   
     helm:
       valueFiles:
         - values.yaml
