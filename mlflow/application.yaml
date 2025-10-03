@@ -2,16 +2,16 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: mlflow
-  namespace: infra-tools      # де працює ArgoCD
+  namespace: infra-tools
 spec:
   project: default
   source:
-    repoURL: https://community-charts.github.io/helm-charts   # джерело Helm-чарту
+    repoURL: https://community-charts.github.io/helm-charts
     chart: mlflow
-    targetRevision: 2.12.1
+    targetRevision: 0.7.16   # 👈 правильна версія
     helm:
       valueFiles:
-        - values.yaml       # values.yaml з репозиторію
+        - values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: mlflow
