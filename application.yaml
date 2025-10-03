@@ -1,0 +1,25 @@
+# application.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mlflow
+  namespace: infra-tools # Де працює ArgoCD
+spec:
+  project: default
+  source:
+    # --- ВАЖЛИВО: ВКАЖІТЬ URL ВАШОГО РЕПОЗИТОРІЮ ---
+    repoURL: 'https://github.com/Brem090/my-mlops-apps.git'
+    path: .
+    targetRevision: HEAD # Завжди стежити за останньою версією гілки
+    helm:
+      valueFiles:
+        - values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: mlflow # Куди будемо розгортати MLflow
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
