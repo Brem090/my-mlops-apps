@@ -1,3 +1,4 @@
+# application.yaml (версія з кількома джерелами)
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -5,16 +6,21 @@ metadata:
   namespace: infra-tools
 spec:
   project: default
-  source:
-    repoURL: https://community-charts.github.io/helm-charts
-    chart: mlflow
-    targetRevision: 0.7.16   
-    helm:
-      valueFiles:
-        - values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: mlflow
+  sources:
+    - repoURL: 'https://community-charts.github.io/helm-charts'
+      chart: mlflow
+      targetRevision: 0.7.16
+      helm:
+        valueFiles:
+          - $values-repo/values.yaml
+
+    - repoURL: 'https://github.com/Brem090/my-mlops-apps.git' 
+      targetRevision: HEAD
+      ref: values-repo
+
   syncPolicy:
     automated:
       prune: true
